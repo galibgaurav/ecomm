@@ -1,0 +1,5 @@
+c:\users\e593544\documents\visual studio 2012\Projects\eCommservices\eCommservices\bin\eCommservices.dll
+c:\users\e593544\documents\visual studio 2012\Projects\eCommservices\eCommservices\bin\eCommservices.pdb
+c:\users\e593544\documents\visual studio 2012\Projects\eCommservices\eCommservices\obj\Debug\eCommservices.csprojResolveAssemblyReference.cache
+c:\users\e593544\documents\visual studio 2012\Projects\eCommservices\eCommservices\obj\Debug\eCommservices.dll
+c:\users\e593544\documents\visual studio 2012\Projects\eCommservices\eCommservices\obj\Debug\eCommservices.pdb
