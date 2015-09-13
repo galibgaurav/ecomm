@@ -5,6 +5,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eCommservices", "eCommservi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApplication1", "ConsoleApplication1\ConsoleApplication1.csproj", "{FBD7DD4F-765B-41A7-911C-970819B6A03D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MvcWebRole1", "..\Galib_Gaurav_FB\MvcWebRole1\MvcWebRole1.csproj", "{A3AEFC18-DA29-4D10-A30C-3E12325C8FB7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eCommservicesClient", "eCommservicesClient\eCommservicesClient.csproj", "{78BFC7E2-E487-4761-8F25-E415497B19E0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,6 +23,14 @@ Global
 		{FBD7DD4F-765B-41A7-911C-970819B6A03D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FBD7DD4F-765B-41A7-911C-970819B6A03D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FBD7DD4F-765B-41A7-911C-970819B6A03D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A3AEFC18-DA29-4D10-A30C-3E12325C8FB7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A3AEFC18-DA29-4D10-A30C-3E12325C8FB7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A3AEFC18-DA29-4D10-A30C-3E12325C8FB7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A3AEFC18-DA29-4D10-A30C-3E12325C8FB7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{78BFC7E2-E487-4761-8F25-E415497B19E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{78BFC7E2-E487-4761-8F25-E415497B19E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{78BFC7E2-E487-4761-8F25-E415497B19E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{78BFC7E2-E487-4761-8F25-E415497B19E0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,0 +1,448 @@
+﻿<script>
+    //executing event registration
+    require(["ApplicationScripts/EcommOperations"], function (Ecomm) {
+        Ecomm.LoadSummaryPage();
+    });
+
+    //Displaying the information(about) of the page selected 
+    function AboutSelectedPage(selectedElement) {
+        var innerDiv = selectedElement.getElementsByTagName('DIV');
+        var pageid = innerDiv[0].getAttribute('data-pageid');
+        //if a div related to facebook like is open we need to close it, so that user can easily see other FB page in the table table on the main page 
+        document.getElementById('likePageID').style.display = 'none';
+        //make the about div empty , kind of work like toggle
+        if (innerDiv[0].innerHTML !== "") {
+            innerDiv[0].innerHTML = ""
+        }
+            //id about div is enty then user's intention is to see about info for a page , so we need to call facebook api to get the about infomatio of the page;
+        else {
+            FB.api("/" + pageid, 'get', { fields: "about" },
+    function (response) {
+        if (response && !response.error) {
+            innerDiv[0].innerHTML = response.about;
+        }
+        else {
+            alert('error occured');
+        }
+    }
+        );
+        }
+    }
+
+    //functionality for liking and unliking a facebook page
+    function LikePage(selectedElement) {
+        //if a div related to facebook like is open we need to close it, so that user can easily see other FB page in the table table on the main page 
+        document.getElementById('likePageID').style.display = 'none';
+        document.getElementById('likelinkID').setAttribute("data-href", '');
+        //getting the page id to which like/unlike
+        var pageid = selectedElement.getAttribute('data-pageid')
+        var URL = 'https://www.facebook.com/' + pageid + '?fref=ts';
+        document.getElementById('likelinkID').setAttribute("data-href", URL);
+        //parses dom element into facebook standard markup language
+        FB.XFBML.parse(document.getElementById('likePageID'));
+        //display the like/unlike the face book page
+        document.getElementById('likePageID').style.display = 'block';
+    }
+    //closing the like/unlike div on hitting close button
+    function closeLikeDIVfn() {
+        document.getElementById('likePageID').style.display = 'none';
+    }
+
+</script>
+<script>
+    $(document).ready(function () { try { $('#dialog').dialog({ autoOpen: false, title: 'Details' }) } catch (e) { }});
+    $(window).load(function () {
+        startRotator("#rotator");
+        $(".navigation > a").click(function () {
+            if (!$(this).hasClass("active")) {
+                $(".navigation").unbind('mouseleave');
+                $(".navigation .second_level").removeClass("animated fadeInDown").hide();
+                var el = $(this);
+                el.addClass("hover");
+                $(".navigation > a.active").fadeOut("fast", function () {
+                    var prev = $(this)
+                    prev.removeClass('active');
+                    container_pos = $(".navigation").offset()
+                    button_pos = el.offset()
+                    el.animate({ top: container_pos.top - button_pos.top }, 500, function () {
+                        el.addClass("active").removeClass("hover").css("top", 0);
+                        if (el.attr("href").length > 1 && el.attr("href") != "#") {
+                            $(".navigation > a:not(.active)").removeClass("fadeInLeft animated").hide();
+                            $(el.attr("href")).addClass("fadeInDown animated").show();
+                        } else {
+                            prev.addClass("fadeInLeft animated").fadeIn("fast");
+                        }
+                    });
+                });
+            }
+
+        });
+
+        $(".navigation .back").hover(
+          function () {
+              var el = $(this)
+              $(".navigation .second_level").removeClass("animated fadeInDown").hide();
+              $(".navigation > a:not(.active)").addClass("fadeInLeft animated").show()
+              $(".navigation").hover(function () { }, function () {
+                  $(this).unbind('mouseleave');
+                  $(".navigation > a:visible:not(.active)").hide().removeClass("fadeInLeft animated");
+                  el.closest(".second_level").addClass("animated fadeInDown").show();
+              });
+          });
+    });
+    //function rotateBanners(elem) {
+    //    var active = $(elem + " img.active");
+    //    var next = active.next();
+    //    if (next.length == 0)
+    //        next = $(elem + " img:first");
+    //    active.removeClass("active").fadeOut(200);
+    //    next.addClass("active").fadeIn(200);
+    //}
+
+    //function prepareRotator(elem) {
+    //    $(elem + " img").fadeOut(0);
+    //    $(elem + " img:first").fadeIn(0).addClass("active");
+    //}
+
+    //function startRotator(elem) {
+    //    prepareRotator(elem);
+    //    setInterval("rotateBanners('" + elem + "')", 2500);
+    //}
+    function rotateBanners(elem) {
+        var active = $(elem + " img.active");
+        var next = active.next();
+        if (next.length == 0)
+            next = $(elem + " img:first");
+        active.removeClass("active").fadeOut(200);
+        next.addClass("active").fadeIn(200);
+    }
+
+    function prepareRotator(elem) {
+        $(elem + " img").fadeOut(0);
+        $(elem + " img:first").fadeIn(0).addClass("active");
+    }
+
+    function startRotator(elem) {
+        prepareRotator(elem);
+        setInterval("rotateBanners('" + elem + "')", 2500);
+    }
+    function closeProductDiv()
+    {
+        $('#productPopUp').text('');
+        document.getElementById("overlay").className = "";
+        $('#productPopUp').css("display", "none");
+    }
+    function displayProductDetails(self) {
+        debugger;
+        var x = $(self).parents('tr').find('input[type="hidden"]').val();
+        $.ajax({
+            type: "POST",
+            url: "Home/SpecificProductDetails",
+            contentType: "application/json; charset=utf-8",
+            data: "{ 'productID' : '"+x+"' }",
+            dataType: "json",
+            success: function (result) {
+                debugger;
+                var innerHtml = '<div style="color:#0000FF;background-color:white;display:inline-block;margin-left:5px;margin-top:10px;"><table class="row" style="height:180px;width:195px;margin-top:8px;margin-left:8px;"><tbody><tr><td colspan="2">  <img src="/Images/' + result[0].ImagePath + '" style="width:450px;height:280px"></td></tr><tr><label><font size="2">' + result[0].ProductName + '</font></label></tr><tr><label><font size="2">Price- ' + result[0].ProductPrice + '$</font></label></tr><tr><td><input type="hidden" name="ProductId" value="' + result[0].ProductId + '"></td></tr><tr><label><font size="2">Description- ' + result[0].ProductDescription + '</label></tr><tr><label><font size="2">Product Details-' + result[0].ProductDetails + '</label></tr><tr><label><font size="2">Comments-' + result[0].ReviewComments + '</label></tr><tr><td><input  type="button" value="Buy"></td><td><input  type="button" onclick="closeProductDiv()" value="Close"></td></tr></tbody></table></div>';
+                $('#productPopUp').text('');
+                document.getElementById("overlay").className = "";
+                $('#productPopUp').append(innerHtml);
+                
+                ////$("#productPopUp").dialog({ autoOpen: true, modal: true, show: "blind", hide: "blind" });
+                //$('#productPopUp').css("display", "block");
+                //$('#productPopUp').dialog("open");
+                ////$('#productPopUp').show();
+                ////ShowProductSummary(result);
+                document.getElementById("overlay").className = "OverlayEffect";
+                $('#productPopUp').fadeIn("slow");
+            },
+            error: function () {
+                alert('Error');
+            }
+        });
+
+        
+    }
+    function Review(value) {
+        debugger;
+        var str = "";
+        switch (value) {
+            case 1:
+                str = "*";
+                break;
+            case 2:
+                str = "**";
+                break;
+            case 3:
+                str = "***";
+                break;
+            case 4:
+                str = "****";
+                break;
+            case 5:
+                str = "*****";
+                break;
+            default:
+                str = "";
+        }
+        return str;
+    }
+    function ShowProductSummary1(result) {
+        var htmlString = '';
+        ///var htmlString = '<div style="color:#0000FF;background-color:white;display:inline-block"><table class="row" style="height:180px;width:195px;margin-top:5px;margin-left:5px;"><tbody><tr><td colspan="2">  <img src="/Images/' + result[1].IconPath + '" style="width:60px;height:60px"></td></tr><tr><label><font size="2">' + result[1].ProductName + '</font></label></tr><tr><label><font size="2">Price- ' + result[1].ProductPrice + '</font></label></tr><tr><td><input type="hidden" name="ProductId" value="' + result[1].ProductId + '"></td></tr><tr><td>*****</td><td><input type="button" value="Details"></td></tr></tbody></table></div>';
+        for (var i = 0; i < result.length; i++) {
+            htmlString = htmlString.concat('<div style="color:#0000FF;background-color:white;display:inline-block;margin-left:5px;margin-top:10px;" onclick="displayProductDetails(this)"><table class="row" style="height:180px;width:195px;margin-top:8px;margin-left:8px;"><tbody><tr><td colspan="2">  <img src="/Images/' + result[i].IconPath + '" style="width:60px;height:60px"></td></tr><tr><label><font size="2">' + result[i].ProductName + '</font></label></tr><tr><label><font size="2">Price- ' + result[i].ProductPrice + '$</font></label></tr><tr><td><input type="hidden" name="ProductId" value="' + result[i].ProductId + '"></td></tr><tr><td>' + Review(result[i].Ratings) + '</td><td><input  type="button" value="Details"></td></tr></tbody></table></div>');
+            //    //Do something
+        }
+        debugger;
+        $('#summaryDiv').text('');
+        $('#summaryDiv').append(htmlString);
+    }
+    function LaptopsInfo() {
+        debugger;
+        $.ajax({
+            type: "POST",
+            url: "Home/LaptopInfo",
+            contentType: "application/json; charset=utf-8",
+            data: { },
+            dataType: "json",
+            success: function (result) {
+                debugger;
+                ShowProductSummary1(result);
+            },
+            error: function () {
+                alert('Error');
+            }
+        });
+    }
+    function TableInfo() {
+        $.ajax({
+            type: "POST",
+            url: "Home/TableInfo",
+            contentType: "application/json; charset=utf-8",
+            data: {},
+            dataType: "json",
+            success: function (result) {
+                debugger;
+                ShowProductSummary1(result);
+            },
+            error: function () {
+                alert('Error');
+            }
+        });
+    }
+    function MobileInfo() {
+        $.ajax({
+            type: "POST",
+            url: "Home/MobileInfo",
+            contentType: "application/json; charset=utf-8",
+            data: {},
+            dataType: "json",
+            success: function (result) {
+                debugger;
+                ShowProductSummary1(result);
+            },
+            error: function () {
+                alert('Error');
+            }
+        });
+    }
+    function MounseInfo() {
+        $.ajax({
+            type: "POST",
+            url: "Home/MounseInfo",
+            contentType: "application/json; charset=utf-8",
+            data: {},
+            dataType: "json",
+            success: function (result) {
+                debugger;
+                ShowProductSummary1(result);
+            },
+            error: function () {
+                alert('Error');
+            }
+        });
+    }
+    function CameraInfo() {
+        $.ajax({
+            type: "POST",
+            url: "Home/CameraInfo",
+            contentType: "application/json; charset=utf-8",
+            data: {},
+            dataType: "json",
+            success: function (result) {
+                debugger;
+                ShowProductSummary1(result);
+            },
+            error: function () {
+                alert('Error');
+            }
+        });
+    }
+</script>
+
+
+<div style="display: block;">
+    <div style="display: inline-block;height:60px;width:100%">
+        <img src="/Images/delllogo.jpg" style="width: 205px; height: 56px; margin-top: 10px; margin-left: 4%; float: left">
+        <input type="text" id="searchPage" name="search" placeholder="Search Product..." style="float: left; margin-top: 10px; margin-bottom: 100px; margin-right: 50px; margin-left: 20px; width: 50%; height: 44px" size="100">
+      <img src="/Images/cart.png" style="width: 50px; height: 50px; margin-top: 10px; margin-right: 4%; float: right">
+         </div>
+    <div style="margin-top:0px;">
+        <table style="width:100%;margin-left:10px;">
+            <tr>
+                <td style="width:220px;vertical-align:top;">
+                    <div style="top:0px;margin-left:22%;margin-top:0px;">
+                        <div class="main">
+                            <nav class="navigation">
+                                <a href="#" class="active home">
+                                    <span class="icon"><i class="icon-home"></i></span>
+                                    <span class="content">Home</span>
+                                </a>
+                                <a href="#app_nav" class="green">
+                                    <span class="icon"><i class="icon-laptop"></i></span>
+                                    <span class="content">Laptops</span>
+                                </a>
+                                <div class="hide second_level" id="app_nav">
+                                    <a href="#" class="back">
+                                        <i class="icon-chevron-left"></i>
+                                    </a>
+                                    <div class="content">
+                                        <a href="#"  onclick="return LaptopsInfo();">
+                                            <span class="content">15"</span>
+                                        </a>
+                                        <a href="#"  onclick="return LaptopsInfo();">
+                                            <span class="content">17"</span>
+                                        </a>
+                                        <a href="#"  onclick="return LaptopsInfo();">
+                                            <span class="content">19"</span>
+                                        </a>
+                                        <a href="#"  onclick="return LaptopsInfo();">
+                                            <span class="content">21"</span>
+                                        </a>
+                                    </div>
+                                </div>
+                                <a href="#movies_nav" class="red">
+                                    <span class="icon"><i class="icon-iphone-home"></i></span><span class="content">Tablets</span>
+                                </a>
+                                <div class="hide second_level" id="movies_nav">
+                                    <a href="#" class="back">
+                                        <i class="icon-chevron-left"></i>
+                                    </a>
+                                    <div class="content">
+                                        <a href="#"  onclick="return TableInfo();">
+                                            <span class="content">7"</span>
+                                        </a>
+                                        <a href="#"  onclick="return TableInfo();">
+                                            <span class="content">8"</span>
+                                        </a>
+                                        <a href="#"  onclick="return TableInfo();">
+                                            <span class="content">10"</span>
+                                        </a>
+                                        <a href="#"  onclick="return TableInfo();">
+                                            <span class="content">12"</span>
+                                        </a>
+                                    </div>
+                                </div>
+                                <a href="#music_nav" class="orange">
+                                    <span class="icon"><i class="icon-phone"></i></span>
+                                    <span class="content">Mobile</span>
+                                </a>
+                                <div class="hide second_level" id="music_nav">
+                                    <a href="#" class="back">
+                                        <i class="icon-chevron-left"></i>
+                                    </a>
+                                    <div class="content">
+                                        <a href="#"  onclick="return MobileInfo();">
+                                            <span class="content">Apple</span>
+                                        </a>
+                                        <a href="#"  onclick="return MobileInfo();">
+                                            <span class="content">Samsung</span>
+                                        </a>
+                                        <a href="#"  onclick="return MobileInfo();">
+                                            <span class="content">Micromax</span>
+                                        </a>
+                                        <a href="#"  onclick="return MobileInfo();">
+                                            <span class="content">Motorola</span>
+                                        </a>
+                                    </div>
+                                </div>
+                                <a href="#books_nav" class="blue">
+                                    <span class="icon"><i class="icon-pencil"></i></span>
+                                    <span class="content">Mouse</span>
+                                </a>
+                                <div class="hide second_level" id="books_nav">
+                                    <a href="#" class="back">
+                                        <i class="icon-chevron-left"></i>
+                                    </a>
+                                    <div class="content">
+                                        <a href="#"  onclick="return MounseInfo();">
+                                            <span class="content">Wired</span>
+                                        </a>
+                                        <a href="#"  onclick="return MounseInfo();">
+                                            <span class="content">Wireless</span>
+                                        </a>
+                                        <a href="#"  onclick="return MounseInfo();">
+                                            <span class="content">USB</span>
+                                        </a>
+
+                                    </div>
+                                </div>
+                                <a href="#magazines_nav" class="purple">
+                                    <span class="icon"><i class="icon-camera"></i></span>
+                                    <span class="content">Camera</span>
+                                </a>
+                                <div class="hide second_level" id="magazines_nav">
+                                    <a href="#" class="back">
+                                        <i class="icon-chevron-left"></i>
+                                    </a>
+                                    <div class="content">
+                                        <a  href="#"  onclick="return CameraInfo();">
+                                            <span class="content">IP Camera</span>
+                                        </a>
+                                        <a href="#"  onclick="return CameraInfo();">
+                                            <span class="content">Wired Camera</span>
+                                        </a>
+                                        <a  href="#"  onclick="return CameraInfo();"">
+                                            <span class="content">Night Vision</span>
+                                        </a>
+                                        <a  href="#"  onclick="return CameraInfo();">
+                                            <span class="content">Web Camera</span>
+                                        </a>
+                                    </div>
+                                </div>
+
+                            </nav>
+                        </div>
+
+                    </div>
+                </td>
+                <td style="vertical-align:top;text-align:center;width:90%;padding-left:6px;">
+                    @*<div id="rotator" style="top:0px;margin-left:30px; margin-left:34px;">
+                        <img height="170" src="~/Images/db1.jpg" width="850" />
+
+                        <img height="170" src="~/Images/db2.jpg" width="850" />
+
+                        <img height="170" src="~/Images/db3.jpg" width="850" />
+                    </div>*@
+                    <div id="rotator" style="top:0px;margin-left:30px; margin-left:34px;">
+     <img height="170" src="/Images/db1.jpg" width="850" />
+     <img height="170" src="/Images/db2.jpg" width="850" />
+   <img height="170" src="/Images/db3.jpg" width="850" />
+ </div>
+                    <div style="min-height:200px;width:auto;background-color:#A8A8A8;margin-left:34px;margin-top:165px;max-width:850px;" id="summaryDiv">
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+
+
+    </div>
+
+
+</div>
+<div id="productPopUp">    
+</div>
+ <div id="overlay">
+     </div>

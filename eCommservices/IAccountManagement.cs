@@ -14,10 +14,14 @@ namespace eCommservices
         [OperationContract]
         void DoWork();
         [OperationContract]
-        ProductList GetProductList();
-        //[OperationContract]
-        //string GetPurchaseList(IList<PurchaseItem> purchaseLst);
-
+        string GetProductList();
+        [OperationContract]
+        string GetPurchaseList(IList<PurchaseItem> purchaseLst);
+        [OperationContract]
+        string GetProductDetails(string ProductID);
+        [OperationContract]
+        string GetProductForACategory(string productTypeID);
+        
     }
 
     [DataContract]

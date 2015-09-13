@@ -15,54 +15,9 @@ namespace ConsoleApplication1.ServiceReference1 {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="ProductList", Namespace="http://schemas.datacontract.org/2004/07/eCommservices")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="PurchaseItem", Namespace="http://schemas.datacontract.org/2004/07/eCommservices")]
     [System.SerializableAttribute()]
-    public partial class ProductList : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
-        
-        [System.NonSerializedAttribute()]
-        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private ConsoleApplication1.ServiceReference1.Product[] lstProductField;
-        
-        [global::System.ComponentModel.BrowsableAttribute(false)]
-        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
-            get {
-                return this.extensionDataField;
-            }
-            set {
-                this.extensionDataField = value;
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public ConsoleApplication1.ServiceReference1.Product[] lstProduct {
-            get {
-                return this.lstProductField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.lstProductField, value) != true)) {
-                    this.lstProductField = value;
-                    this.RaisePropertyChanged("lstProduct");
-                }
-            }
-        }
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="Product", Namespace="http://schemas.datacontract.org/2004/07/eCommservices")]
-    [System.SerializableAttribute()]
-    public partial class Product : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+    public partial class PurchaseItem : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
         [System.NonSerializedAttribute()]
         private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
@@ -95,7 +50,16 @@ namespace ConsoleApplication1.ServiceReference1 {
         void DoWork();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAccountManagement/GetProductList", ReplyAction="http://tempuri.org/IAccountManagement/GetProductListResponse")]
-        ConsoleApplication1.ServiceReference1.ProductList GetProductList();
+        string GetProductList();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAccountManagement/GetPurchaseList", ReplyAction="http://tempuri.org/IAccountManagement/GetPurchaseListResponse")]
+        string GetPurchaseList(ConsoleApplication1.ServiceReference1.PurchaseItem[] purchaseLst);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAccountManagement/GetProductDetails", ReplyAction="http://tempuri.org/IAccountManagement/GetProductDetailsResponse")]
+        string GetProductDetails(string ProductID);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAccountManagement/GetProductForACategory", ReplyAction="http://tempuri.org/IAccountManagement/GetProductForACategoryResponse")]
+        string GetProductForACategory(string productTypeID);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -129,8 +93,20 @@ namespace ConsoleApplication1.ServiceReference1 {
             base.Channel.DoWork();
         }
         
-        public ConsoleApplication1.ServiceReference1.ProductList GetProductList() {
+        public string GetProductList() {
             return base.Channel.GetProductList();
+        }
+        
+        public string GetPurchaseList(ConsoleApplication1.ServiceReference1.PurchaseItem[] purchaseLst) {
+            return base.Channel.GetPurchaseList(purchaseLst);
+        }
+        
+        public string GetProductDetails(string ProductID) {
+            return base.Channel.GetProductDetails(ProductID);
+        }
+        
+        public string GetProductForACategory(string productTypeID) {
+            return base.Channel.GetProductForACategory(productTypeID);
         }
     }
 }

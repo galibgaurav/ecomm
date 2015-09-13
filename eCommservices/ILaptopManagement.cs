@@ -13,9 +13,9 @@ namespace eCommservices
     {
         [OperationContract]
         void DoWork();
-        [OperationContract]
-        Product GetProductDetails(string ProductID);
-        [OperationContract]
-        ProductList GetProductForACategory(string productTypeID);
+        //[OperationContract]
+        //Product GetProductDetails(string ProductID);
+        //[OperationContract]
+        //ProductList GetProductForACategory(string productTypeID);
     }
 }

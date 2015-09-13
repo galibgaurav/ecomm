@@ -1,0 +1,5 @@
+c:\users\e593544\documents\visual studio 2012\Projects\eCommservices\eCommservicesClient\bin\Debug\eCommservicesClient.dll.config
+c:\users\e593544\documents\visual studio 2012\Projects\eCommservices\eCommservicesClient\bin\Debug\eCommservicesClient.dll
+c:\users\e593544\documents\visual studio 2012\Projects\eCommservices\eCommservicesClient\bin\Debug\eCommservicesClient.pdb
+c:\users\e593544\documents\visual studio 2012\Projects\eCommservices\eCommservicesClient\obj\Debug\eCommservicesClient.dll
+c:\users\e593544\documents\visual studio 2012\Projects\eCommservices\eCommservicesClient\obj\Debug\eCommservicesClient.pdb

@@ -15,59 +15,59 @@ namespace eCommservices
         public void DoWork()
         {
         }
-        public Product GetProductDetails(string productID)
-        {
-            using (var cmd = DbConn.GetStoredProcCommand("stroredProcName"))
-            {
-                var obj = new Product();                          
-                try
-                {
-                    DbConn.AddInParameter(cmd, "@nameofthecolumn", SqlDbType.NVarChar, productID);
-                    using (var objDataReader = DbConn.ExecuteReader(cmd))
-                    {
-                        while (objDataReader.Read())
-                        {
-                            //filling product
+        //public Product GetProductDetails(string productID)
+        //{
+        //    using (var cmd = DbConn.GetStoredProcCommand("stroredProcName"))
+        //    {
+        //        var obj = new Product();                          
+        //        try
+        //        {
+        //            DbConn.AddInParameter(cmd, "@nameofthecolumn", SqlDbType.NVarChar, productID);
+        //            using (var objDataReader = DbConn.ExecuteReader(cmd))
+        //            {
+        //                while (objDataReader.Read())
+        //                {
+        //                    filling product
           
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
+        //                }
+        //            }
+        //        }
+        //        catch (Exception ex)
+        //        {
 
-                }
-                return obj;
-            }
-        }
+        //        }
+        //        return obj;
+        //    }
+        //}
 
-        public ProductList GetProductForACategory(string productTypeID)
-        {
-            var objProductList = new ProductList();
-            using (var cmd = DbConn.GetStoredProcCommand("stroredProcName"))
-            {
+        //public ProductList GetProductForACategory(string productTypeID)
+        //{
+        //    var objProductList = new ProductList();
+        //    using (var cmd = DbConn.GetStoredProcCommand("stroredProcName"))
+        //    {
                  
-                try
-                {
-                    DbConn.AddInParameter(cmd, "@nameofthecolumn", SqlDbType.NVarChar, productTypeID);
-                    using (var objDataReader = DbConn.ExecuteReader(cmd))
-                    {
-                        while (objDataReader.Read())
-                        {
-                            var obj = new Product();
-                            //filling product
-                            objProductList.lstProduct.Add(obj);
+        //        try
+        //        {
+        //            DbConn.AddInParameter(cmd, "@nameofthecolumn", SqlDbType.NVarChar, productTypeID);
+        //            using (var objDataReader = DbConn.ExecuteReader(cmd))
+        //            {
+        //                while (objDataReader.Read())
+        //                {
+        //                    var obj = new Product();
+        //                    //filling product
+        //                    objProductList.lstProduct.Add(obj);
 
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
+        //                }
+        //            }
+        //        }
+        //        catch (Exception ex)
+        //        {
 
-                }
-                }
-            return objProductList;
+        //        }
+        //        }
+        //    return objProductList;
             
-        }
+        //}
 
     }
 }
